@@ -113,7 +113,7 @@ ll query(int u, int l, int r)
 
 对于区间 $[l,r]$ ，以 $l$ 所在块的编号为第一关键字排序，以 $r$ 为第二关键字排序。
 
-```
+```cpp
 bool cmp1(const query a, const query b)
 {
     if (a.pos == b.pos)
@@ -141,7 +141,7 @@ for (int i = 1, l = 1, r = 0; i <= m; i++)
 
 ### 树上启发式合并
 
-```
+```cpp
 void dfs(int u,int f)           //与重链剖分相同的写法找重儿子
 {
     siz[u]=1;
@@ -179,25 +179,22 @@ void count(int u,int f,int val)
 //dsu on tree的板子
 void dfs(int u,int f,bool keep)
 {
-    // 第一步：搞轻儿子及其子树算其答案删贡献
-    for(int i=Head[u];~i;i=Edge[i].next)
+    for(int i=Head[u];~i;i=Edge[i].next)// 第一步：搞轻儿子及其子树算其答案删贡献
     {
         int v = Edge[i].to;
         if(v==f||v==son[u]) continue;
         dfs(v,u,false);
     }
-    // 第二步：搞重儿子及其子树算其答案不删贡献
-    if(son[u])
+    if(son[u])  // 第二步：搞重儿子及其子树算其答案不删贡献
     {
         dfs(son[u],u,true);
         flag = son[u];
     }
-    // 第三步：暴力统计u及其所有轻儿子的贡献合并到刚算出的重儿子信息里
-    count(u,f,1);
+    count(u,f,1);  // 第三步：暴力统计u及其所有轻儿子的贡献合并到刚算出的重儿子信息里
     flag = 0;   
     ans[u] = sum;
-    // 把需要删除贡献的删一删
-    if(!keep)
+    
+    if(!keep) // 把需要删除贡献的删一删
     {
         count(u,f,-1);
         sum=maxc=0; //这是因为count函数中会改变这两个变量值

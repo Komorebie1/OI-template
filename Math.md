@@ -67,7 +67,7 @@ int gcd(int a, int b)
 
 ### 扩展欧几里得算法
 
-求得的是$ax+by=gcd(a,b)$的一组特解，该方程的通解可以表示为$\begin{cases}x'=x+k\frac{b}{gcd(a,b)}\\y'=y-k\frac{a}{gcd(a,b)}\end{cases}(k\in Z)$.​
+求得的是 $ax+by=gcd(a,b)$ 的一组特解，该方程的通解可以表示为 $\begin{cases}x'=x+k\frac{b}{gcd(a,b)}\\y'=y-k\frac{a}{gcd(a,b)}\end{cases}(k\in Z)$ .​
 
 ```cpp
 int exgcd(int a, int b, int &x, int &y) {
@@ -122,11 +122,11 @@ ll CRT(int n, ll a[], ll b[]) // a为模数，b为余数
 
 1. 当mod为质数时
 
-   $ax\equiv 1 \pmod b$由费马小定理有$ax\equiv a^{b-1}\pmod b$
+   $ax\equiv 1 \pmod b$ 由费马小定理有 $ax\equiv a^{b-1}\pmod b$
 
    $\therefore x\equiv a^{b-2} \pmod b$.
 
-   快速幂求$a^{b-2}$即可
+   快速幂求 $a^{b-2}$ 即可
 
    ```cpp
    long long qpow(long long a, int b)

@@ -61,13 +61,13 @@ int gcd(int a, int b)
 
 ### 裴蜀定理
 
-如果$a,b$均为整数，一定存在整数 $x,y$ 使得 $ax+by = gcd(a,b)$ 成立。
+如果 $a,b$ 均为整数，一定存在整数 $x,y$ 使得 $ax+by = gcd(a,b)$ 成立。
 
 推论：对于方程 $ax+by=c$，如果 $gcd(a,b)\mid c$​，则方程一定有解，反之一定无解。
 
 ### 扩展欧几里得算法
 
-求得的是$ax+by=gcd(a,b)$的一组特解，该方程的通解可以表示为$$\begin{cases}x'=x+k\frac{b}{gcd(a,b)}\\y'=y-k\frac{a}{gcd(a,b)}\end{cases}(k\in Z)$$.​
+求得的是$ax+by=gcd(a,b)$的一组特解，该方程的通解可以表示为$\begin{cases}x'=x+k\frac{b}{gcd(a,b)}\\y'=y-k\frac{a}{gcd(a,b)}\end{cases}(k\in Z)$.​
 
 ```cpp
 int exgcd(int a, int b, int &x, int &y) {

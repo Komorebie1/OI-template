@@ -1,5 +1,103 @@
 ## 字符串
 
+### KMP
+
+```cpp
+// 求Next数组：
+// s[]是模式串，p[]是模板串, n是s的长度，m是p的长度
+for (int i = 2, j = 0; i <= m; i ++ )
+{
+    while (j && p[i] != p[j + 1]) j = ne[j];
+    if (p[i] == p[j + 1]) j ++ ;
+    ne[i] = j;
+}
+```
+
+```cpp
+// 匹配
+for (int i = 1, j = 0; i <= n; i ++ )
+{
+    while (j && s[i] != p[j + 1]) j = ne[j];
+    if (s[i] == p[j + 1]) j ++ ;
+    if (j == m)
+    {
+        j = ne[j];
+        // 匹配成功后的逻辑
+    }
+}
+```
+
+### Manacher
+
+```cpp
+//Manacher（马拉车）求回文半径
+int d1[N],d2[N];//d1表示奇数半径（包括自己）
+for (int i = 1, l = 1, r = 0; i <= n; i++)
+{
+    int k = i > r ? 1 : min(d1[l + (r - i)], r - (i - 1));
+    while (1 <= i - k && i + k <= n && str[i - k] == str[i + k])
+    {
+        k++;
+    }
+    d1[i] = k--;
+    if (i + k > r)
+    {
+        l = i - k;
+        r = i + k;
+    }
+}
+
+for (int i = 1, l = 1, r = 0; i <= n; i++)
+{
+    int k = i > r ? 1 : min(d2[l + r - i + 1], r - (i - 1));
+    while (1 <= i - k - 1 && i + k <= n && str[i - k - 1] == str[i + k])
+    {
+        k++;
+    }
+    d2[i] = k--;
+    if (i + k > r)
+    {
+        l = i - k - 1;
+        r = i + k;
+    }
+}
+```
+
+### Trie树
+
+```cpp
+int son[N][26], cnt[N], idx;
+// 0号点既是根节点，又是空节点
+// son[][]存储树中每个节点的子节点
+// cnt[]存储以每个节点结尾的单词数量
+
+// 插入一个字符串
+void insert(char *str)
+{
+    int p = 0;
+    for (int i = 0; str[i]; i ++ )
+    {
+        int u = str[i] - 'a';
+        if (!son[p][u]) son[p][u] = ++ idx;
+        p = son[p][u];
+    }
+    cnt[p] ++ ;
+}
+
+// 查询字符串出现的次数
+int query(char *str)
+{
+    int p = 0;
+    for (int i = 0; str[i]; i ++ )
+    {
+        int u = str[i] - 'a';
+        if (!son[p][u]) return 0;
+        p = son[p][u];
+    }
+    return cnt[p];
+}
+```
+
 ### AC自动机
 
 ```cpp
@@ -160,6 +258,38 @@ void get_height()
         int j = sa[rk[i] - 1];
         while (s[i + k] == s[j + k]) k++;
         height[rk[i]] = k;
+    }
+}
+```
+
+### 回文自动机
+
+```cpp
+struct PAM {
+    int len[N], num[N], fail[N], trie[N][26], tot = 1;
+    int getfail(int x, int i, string s)
+    {
+        while (i - len[x] - 1 < 0 || s[i] != s[i - len[x] - 1]) x = fail[x];
+        return x;
+    }
+    void build(string s)
+    {
+        int cur = 0;
+        fail[0] = 1, len[1] = -1;
+        for (int i = 0; i < s.size(); i++)
+        {
+            int u = s[i] - 'A';
+            int pos = getfail(cur, i, s);
+            if (!trie[pos][u])
+            {
+                trie[pos][s[i]] = ++tot;
+                fail[tot] = trie[getfail(fail[pos], i, s)][u];
+                len[tot] = len[pos] + 2;
+            }
+            cur = trie[pos][u];
+            num[cur]++;
+        }
+        for (int i = tot; i >= 2; i--) num[fail[i]] += num[i];
     }
 }
 ```
